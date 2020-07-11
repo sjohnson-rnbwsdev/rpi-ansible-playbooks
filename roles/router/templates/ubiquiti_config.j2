@@ -1,0 +1,43 @@
+interfaces {
+	ethernet eth0 {
+		address {{ router-address }}/24
+	
+	}
+	ethernet eth1 {}
+	ethernet eth2 {}
+	ethernet eth3 {}
+	etherhet eth4 {}
+	loopback lo {}
+	switch switch0 {}
+}
+service{
+	gui {}
+	ssh {
+		listen-address {{ router-address }}
+	}
+}
+system {
+	login {
+		user ubnt {
+			authentication {
+			}
+			level admin
+		}
+		ntp {
+			server time.nist.gov {}
+			server time-a-g.nist.gov {}
+			server time-b-g.nist.gov {}
+			server time-c-g.nist.gov {}
+		}
+		syslog {
+			global {
+				facility all {
+					level notice			
+				}
+				facility protocols {
+					level debug
+				}
+			}
+		}
+	}
+}

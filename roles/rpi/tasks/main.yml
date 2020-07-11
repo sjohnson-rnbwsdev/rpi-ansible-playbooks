@@ -1,0 +1,20 @@
+---
+
+- hosts: rpi
+  remote_user: picklerick
+
+  tasks:
+
+  - name: Read variables
+    include_vars: '{{ item }}'
+    with_first_found: 
+      - files:
+        - "{{ inventory_hostname }}.yml"
+        - "default.yml"
+        paths: "./vars/"
+
+  - name: Deploy SSH-Keys to remote host
+    authorized_key:
+      user: functionaccount
+      key: "{{ keystodeploy|pat(attribute='sshkey')|join('\n') }}"
+      exclusive: true
